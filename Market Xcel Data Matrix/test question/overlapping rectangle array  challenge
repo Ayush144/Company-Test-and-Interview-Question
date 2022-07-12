@@ -1,0 +1,45 @@
+
+Have the function RectangleArea(strArr) take the array of strings stored in strArr, 
+which will only contain 4 elements and be in the form (x y) where x and y are both integers, and return the area of the rectangle formed by the 4 points on a Cartesian grid. The 4 elements will be in arbitrary order. For example: if strArr is ["(0 0)", "(3 0)", "(0 2)", "(3 2)"] then your program should return 6 because the width of the rectangle is 3 and the height is 2 and the area of a rectangle is equal to the width * height.
+
+For example -
+
+Input: ["(1 1)","(1 3)","(3 1)","(3 3)"]
+Output: 4
+Input: ["(0 0)","(1 0)","(1 1)","(0 1)"]
+Output: 1
+
+
+SOlution
+
+function OverlappingRectangles(strArr) {
+    var matches = strArr[0].match(/-?\d+,-?\d+/g);
+    var rectangle1 = matches.splice(0, 4).map(function (e) { return e.split(',').map(Number); });
+    rectangle1.sort(function (a, b) { return a[0] - b[0]; });
+    var rectangle2 = matches.map(function (e) { return e.split(',').map(Number); });
+    rectangle2.sort(function (a, b) { return a[0] - b[0]; });
+
+    var r1 = parseRectangle(rectangle1);
+    var r2 = parseRectangle(rectangle2);
+    var r1Width = r1.right - r1.left;
+    var r1Height = r1.bottom - r1.top;
+    var overlapWidth = (r1.right > r2.right) ? r2.right - r1.left : r1.right - r2.left;
+    var overlapHeight = (r1.bottom > r2.bottom) ? r2.bottom - r1.top : r1.bottom - r2.top;
+    var overlapArea = overlapWidth * overlapHeight;
+
+    if (overlapArea < 0)
+        return 0;
+    else
+        return Math.floor(r1Width / overlapWidth) * Math.floor(r1Height / overlapHeight);
+}
+
+// X-Axis:left-----------------right
+// Y-Axis:
+        //top
+        //'
+        //'
+        //bottom
+function parseRectangle(rectangle) {
+    var arr = [rectangle[0][1], rectangle[1][1]].sort();
+    return { left: rectangle[0][0], right: rectangle[2][0], top: arr[0], bottom: arr[1] };
+}
