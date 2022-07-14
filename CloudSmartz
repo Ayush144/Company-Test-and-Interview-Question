@@ -1,0 +1,15 @@
+find second laregest Element  in array
+closure 
+hoisting
+callback function
+----------------------
+var a=[1,2,3]
+a[100]=5;
+console.log(a.length);
+------------------------
+console.log("1" +2);
+console.log("1"-2);
+--------------------------
+string functions any five
+array function any five
+
